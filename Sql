@@ -1,0 +1,25 @@
+USE [Northwind]
+GO
+/****** Object:  StoredProcedure [dbo].[Register]    Script Date: 12/17/2022 9:56:26 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+/* Creating Stored Procedure */ 
+Create procedure [dbo].[Register] 
+/* Declaring parametrs with output and input values */
+@status int out,@Firstname nvarchar(50),@Lastname nvarchar(50),@Email nvarchar(50),@Password nvarchar(50)
+as
+/* Checking our input values with tables data and generating output value */
+if exists(select Email from Registration where Email=@Email)
+begin
+set @status=1
+return @status
+end
+else
+begin
+insert into Registration(FirstName,LastName,Email,Password)
+values (@Firstname,@Lastname,@Email,@Password)
+set @status=0
+return @status
+end
